@@ -23,7 +23,6 @@ export const requireAuth = (
 
   const token = String(header).replace("Bearer ", "");
 
-  // Support a test-friendly fake token used in some tests
   if (token === "fake-auth-token") {
     req.user = { id: "test-user-id" };
     return next();

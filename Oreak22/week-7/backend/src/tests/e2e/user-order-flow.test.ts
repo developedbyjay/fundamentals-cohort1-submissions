@@ -4,7 +4,6 @@ import Product from "../../models/product.model";
 
 describe("User End-to-End Order Flow", () => {
   it("registers → creates order", async () => {
-    // Ensure a product exists
     const prod = await Product.create({ name: "E2E Product", price: 9.99 });
 
     const register = await request(app)

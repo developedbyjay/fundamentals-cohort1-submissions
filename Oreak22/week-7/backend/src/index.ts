@@ -6,8 +6,7 @@ import app from "./app";
 import { seedSampleData } from "./seed";
 
 const PORT = process.env.PORT || 3000;
-const MONGO_URI =
-  process.env.MONGO_URI || "mongodb://localhost:27017/codepilot";
+const MONGO_URI = process.env.MONGO_URI;
 
 const start = async () => {
   try {
