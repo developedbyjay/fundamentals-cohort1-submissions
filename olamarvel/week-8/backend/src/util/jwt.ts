@@ -12,7 +12,7 @@ export function signAccess(user: IUser) {
   return jwt.sign({ sub: String(user._id) }, ACCESS_SECRET, { expiresIn: ACCESS_EXPIRES });
 }
 
-export function signRefresh(userId: string | any, jti: string) {
+export function signRefresh(userId: string, jti: string) {
   return jwt.sign({ sub: String(userId), jti }, REFRESH_SECRET, { expiresIn: REFRESH_EXPIRES });
 }
 

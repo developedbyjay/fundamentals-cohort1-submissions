@@ -3,7 +3,7 @@ import User from "../Models/User";
 import { validationResult } from "express-validator";
 import { comparePassword, hashPassword } from "../util/bycrypt";
 import { randomUUID } from "crypto";
-import { signAccess, signRefresh, verifyAccess, verifyRefresh } from "../util/jwt";
+import { signAccess, signRefresh, verifyRefresh } from "../util/jwt";
 import { AuthRequest } from "../Middlewares/protect";
 
 export const getUser = async (req: AuthRequest, res: Response): Promise<Response> => {
@@ -51,7 +51,7 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
 
     const jti = randomUUID();
     const userAcessToken = signAccess(user)
-    const userRefreshToken = signRefresh(user._id, jti)
+    const userRefreshToken = signRefresh(user._id.toString(), jti)
     user.refreshTokens.push({ jti, token: userRefreshToken })
     await user.save()
 
@@ -92,7 +92,7 @@ export const refresh = async (req: Request, res: Response): Promise<Response> =>
     user.refreshTokens = user.refreshTokens.filter(
         (token) => token.jti !== decoded.jti
     );
-    const refresh = signRefresh(user._id, njti)
+    const refresh = signRefresh(user._id.toString(), njti)
     user.refreshTokens.push({ jti: njti, token: refresh })
     await user.save()
     res.cookie("refreshToken", refresh, {

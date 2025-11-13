@@ -4,6 +4,7 @@ import { AuthRequest } from "../Middlewares/protect";
 import { validationResult } from "express-validator";
 import Appointments from "../Models/Appointments";
 import logger from "../util/logger";
+import { IUser } from "../Models/User";
 
 export const getDoctors = async (req: AuthRequest, res: Response): Promise<Response> => {
     try {
@@ -36,7 +37,7 @@ export const getDoctorById = async (req: AuthRequest, res: Response): Promise<Re
         appointments.forEach(appt => {
             if (appt.user) {
                 // Ensure it's a populated user object, not just an ID string
-                const user = appt.user as any; // Type assertion for populated user
+                const user = appt.user as unknown as IUser; // Type assertion for populated user
                 if (!interactingUsersMap.has(user._id.toString())) {
                     interactingUsersMap.set(user._id.toString(), {
                         _id: user._id,

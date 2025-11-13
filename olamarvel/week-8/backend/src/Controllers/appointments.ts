@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import Appointment from "../Models/Appointments";
 import User from "../Models/User";
 import { validationResult } from "express-validator";
