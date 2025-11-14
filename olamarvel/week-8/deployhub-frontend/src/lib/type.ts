@@ -116,3 +116,12 @@ export interface LoginResponse extends ServerResponse {
 export interface RefreshResponse extends ServerResponse {
     token?: string; // New access token returned in the body
 }
+
+export interface HealthCheckResponse {
+    status: string;          // "ok" or "down"
+    uptime: number;
+    version: string;
+    timestamp: string;
+    error?: string;
+  }
+  

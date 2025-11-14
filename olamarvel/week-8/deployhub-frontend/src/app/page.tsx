@@ -1,11 +1,32 @@
 
 import OurDoctors from "@/components/OurDoctors";
 import { useUser } from "@/context/user";
+import { type HealthCheckResponse } from "@/lib/type";
+import { healthCheck } from "@/services";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 
 export default function Home() {
-  const { user, isLoading } = useUser(); 
+  const { user, isLoading } = useUser();
+  const [status, setStatus] = useState<HealthCheckResponse>({
+    status: 'down',
+    uptime: 0,
+    version: 'unknown',
+    timestamp: new Date().toISOString(),
+    error: 'Health check failed',
+  })
+  useEffect(() => {
+    const fetchHealthCheck = async () => {
+
+      const status = await healthCheck()
+      setStatus(status)
+    }
+    fetchHealthCheck()
+  }, [])
+
+  if (status.status === 'down') {
+  }
 
   if (isLoading) {
     return (
@@ -84,6 +105,22 @@ export default function Home() {
 
       {/* Our Doctors Section */}
       <OurDoctors />
+
+      {status && <section className="flex gap-2">
+        <h2>Server Health Status</h2>
+
+        <p><strong>Status:</strong> {status.status.toString()}</p>
+        <p><strong>Uptime:</strong> {status.uptime}</p>
+        <p><strong>Version:</strong> {status.version}</p>
+        <p><strong>Timestamp:</strong> {status.timestamp}</p>
+
+        {status.error && (
+          <p style={{ color: 'red' }}>
+            <strong>Error:</strong> {status.error}
+          </p>
+        )}\
+      </section>
+      }
 
     </div>
   );
