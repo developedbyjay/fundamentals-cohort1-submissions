@@ -20,19 +20,19 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        working-directory: frontend
+        working-directory: DeployHub-frontend
         run: npm install
 
       - name: Lint
-        working-directory: frontend
+        working-directory: DeployHub-frontend
         run: npm run lint --if-present
 
       - name: Run Tests
-        working-directory: frontend
+        working-directory: DeployHub-frontend
         run: npm test --if-present
 
       - name: Build
-        working-directory: frontend
+        working-directory: DeployHub-frontend
         run: npm run build
 
       - name: Upload build artifacts
